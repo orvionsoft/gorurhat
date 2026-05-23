@@ -1,139 +1,257 @@
-![Gorurhat Admin Dashboard](./frontEnd\images\ScreenshotGorurhat.png)
+![Homepage](public/frontEnd\images\ScreenshotGorurhat.png)
 
 
- Gorurhat E-commerce
-📌 Project Overview
+Gorurhat E-commerce Documentation
+🛍️ প্ল্যাটফর্ম ওভারভিউ
 
-Gorurhat is a fully functional e-commerce web application built with PHP Laravel. It provides a complete online shopping experience including product browsing, cart management, user authentication, order processing, and secure image handling.
-🗂️ Public Image Path Structure
+  database: C:\laragon\www\orvionshop3\public\sqldatabase\gorurhat.sql
 
-All uploaded images (products, categories, user avatars, banners) are stored in the public directory with the following structure:
+Gorurhat একটি PHP Laravel ভিত্তিক ই-কমার্স প্ল্যাটফর্ম যা শুধুমাত্র অ্যাডমিন প্যানেল পরিচালিত। এটি পণ্য, অর্ডার, স্টোক এবং রিপোর্ট ব্যবস্থাপনার জন্য সম্পূর্ণ সমাধান প্রদান করে।
+👨‍💼 অ্যাডমিন প্যানেল ফিচারসমূহ
+📊 ড্যাশবোর্ড
+
+    মোট বিক্রির পরিসংখ্যান
+
+    দৈনিক, সাপ্তাহিক, মাসিক বিক্রির চার্ট
+
+    সাম্প্রতিক অর্ডারের ওভারভিউ
+
+    কম স্টোক সতর্কতা
+
+    মোট পণ্য ও ক্যাটাগরির সংখ্যা
+
+    মোট অর্ডার ও গ্রাহক সংখ্যা
+
+📦 পণ্য ব্যবস্থাপনা
+পণ্য সংযোজন ও সম্পাদনা
+
+    নতুন পণ্য যোগ করা
+
+    পণ্যের নাম, বিবরণ, মূল্য সেট করা
+
+    পণ্যের ছবি আপলোড (পাবলিক ফোল্ডারে)
+
+    পণ্যের স্টোক সংখ্যা নির্ধারণ
+
+    পণ্যের SKU জেনারেশন
+
+পণ্যের বৈচিত্র্য
+
+    আকার, রঙ, ওজন ভেদে আলাদা মূল্য
+
+    ভ্যারিয়েন্ট অনুযায়ী স্টোক সংখ্যা
+
+    ভ্যারিয়েন্ট ভিত্তিক ছবি আপলোড
+
+পণ্য তালিকা
+
+    সব পণ্য দেখুন
+
+    পণ্য অনুসন্ধান ও ফিল্টার
+
+    পণ্য স্ট্যাটাস (অ্যাকটিভ/ইনঅ্যাকটিভ)
+
+    একসাথে একাধিক পণ্য ডিলিট
+
+    CSV/Excel ফাইলের মাধ্যমে বাল্ক পণ্য আপলোড
+
+📂 ক্যাটাগরি ব্যবস্থাপনা
+
+    প্যারেন্ট ও চাইল্ড ক্যাটাগরি তৈরি
+
+    ক্যাটাগরির ছবি আপলোড
+
+    ক্যাটাগরি স্ট্যাটাস (অ্যাকটিভ/ইনঅ্যাকটিভ)
+
+    ক্যাটাগরি অর্ডারিং ও সাজানো
+
+    ক্যাটাগরি এডিট ও ডিলিট
+
+🛒 অর্ডার ব্যবস্থাপনা
+অর্ডার তালিকা
+
+    সব অর্ডার দেখুন
+
+    অর্ডার স্ট্যাটাস অনুযায়ী ফিল্টার (Pending, Processing, Shipped, Delivered, Cancelled)
+
+    তারিখ অনুযায়ী অর্ডার সার্চ
+
+    অর্ডার নম্বর দিয়ে সার্চ
+
+অর্ডার অ্যাকশন
+
+    অর্ডার স্ট্যাটাস আপডেট
+
+    অর্ডার ডিটেইলস দেখা
+
+    ডেলিভারী ম্যান অ্যাসাইন
+
+    প্যাকিং স্লিপ ও ইনভয়েস প্রিন্ট
+
+    অর্ডার নোট যোগ করা
+
+    অর্ডার ক্যানসেল করা
+
+📋 ইনভয়েস ও রিপোর্ট
+
+    অর্ডারের পিডিএফ ইনভয়েস জেনারেট
+
+    বিক্রয় রিপোর্ট (এক্সেল ও পিডিএফ)
+
+    সর্বাধিক বিক্রি পণ্যের রিপোর্ট
+
+    কম স্টোকের পণ্যের রিপোর্ট
+
+    ক্যাটাগরি ভিত্তিক বিক্রয় রিপোর্ট
+
+    দৈনিক, সাপ্তাহিক, মাসিক রিপোর্ট
+
+👥 গ্রাহক ব্যবস্থাপনা
+
+    সব গ্রাহকের তালিকা
+
+    গ্রাহকের অর্ডার ইতিহাস দেখা
+
+    গ্রাহকের তথ্য এডিট
+
+    গ্রাহক অ্যাকাউন্ট স্ট্যাটাস (অ্যাকটিভ/ব্যান)
+
+    গ্রাহককে নোটিফিকেশন পাঠানো
+
+🏷️ কুপন ও ডিসকাউন্ট ব্যবস্থাপনা
+
+    নতুন কুপন তৈরি
+
+    পারসেন্টেজ ও ফিক্সড ডিসকাউন্ট
+
+    কুপনের মেয়াদ নির্ধারণ
+
+    সর্বনিম্ন অর্ডার মূল্য নির্ধারণ
+
+    নির্দিষ্ট পণ্যের জন্য কুপন
+
+    ব্যবহার সীমা নির্ধারণ (প্রতি গ্রাহক)
+
+💰 পেমেন্ট ব্যবস্থাপনা
+
+    পেমেন্ট স্ট্যাটাস আপডেট (Pending, Paid, Failed)
+
+    ক্যাশ অন ডেলিভারী ট্র্যাকিং
+
+    মোবাইল ব্যাংকিং পেমেন্ট ভেরিফিকেশন (bKash, Nagad, Rocket)
+
+    পেমেন্ট হিস্টোরি দেখা
+
+    পেমেন্ট রিপোর্ট ডাউনলোড
+
+🚚 ডেলিভারী ব্যবস্থাপনা
+
+    ডেলিভারী ম্যান তালিকা
+
+    ডেলিভারী ম্যান অ্যাসাইন
+
+    ডেলিভারী স্ট্যাটাস ট্র্যাকিং
+
+    ডেলিভারী এরিয়া সেটিং
+
+    ডেলিভারী চার্জ নির্ধারণ
+
+🔔 নোটিফিকেশন সিস্টেম
+
+    নতুন অর্ডারের ইমেইল নোটিফিকেশন
+
+    অর্ডার স্ট্যাটাস আপডেটের এসএমএস
+
+    কম স্টোকের অ্যালার্ট
+
+    গ্রাহককে প্রমোশনাল মেসেজ পাঠানো
+
+    সিস্টেম নোটিফিকেশন (অ্যাডমিন প্যানেলে)
+
+🖼️ ইমেজ ব্যবস্থাপনা (পাবলিক পাথ)
+ছবি সংরক্ষণের স্থান
+
+সকল ছবি public/images/ ফোল্ডারে সংরক্ষণ করা হয়:
 text
 
 public/
 └── images/
     ├── products/
     ├── categories/
-    ├── users/
     ├── banners/
     └── temp/
 
+ছবির অ্যাক্সেস লিংক
 
-    database: C:\laragon\www\orvionshop3\public\sqldatabase\gorurhat.sql
+    প্রোডাক্ট ছবি: http://gorurhat.com/images/products/abc.jpg
 
-Each image is accessible via a direct URL path relative to the public folder.
-📁 Image Path Examples
-Image Type	Public Path	Access URL Example
-Product Image	public/images/products/shoe.jpg	http://gorurhat.com/images/products/shoe.jpg
-Category Icon	public/images/categories/electronics.png	http://gorurhat.com/images/categories/electronics.png
-Banner Image	public/images/banners/summer.jpg	http://gorurhat.com/images/banners/summer.jpg
-User Avatar	public/images/users/avatar123.jpg	http://gorurhat.com/images/users/avatar123.jpg
-🖼️ How Images Are Stored & Retrieved
+    ক্যাটাগরি ছবি: http://gorurhat.com/images/categories/electronics.png
 
-    Uploaded images are moved directly into the respective subfolder inside public/images/
+    ব্যানার ছবি: http://gorurhat.com/images/banners/summer.jpg
 
-    Database stores the relative image path (e.g., images/products/shoe.jpg)
+ইমেজ ফিচার
 
-    Display in views uses the asset() helper pointing to the public path
+    ছবি আপলোড ও ডিলিট
 
-    Default image is shown when no image is available
+    ছবি রিসাইজ অপশন
 
-🔐 Image Security & Validation
+    ডিফল্ট ছবি দেখানো
 
-    Only allowed image formats: JPEG, PNG, JPG, GIF, WebP
+    একসাথে একাধিক ছবি আপলোড
 
-    Maximum file size: 2MB
+🔒 সিকিউরিটি ফিচার
 
-    File names are renamed uniquely (timestamp + random string)
+    অ্যাডমিন লগইন সিস্টেম
 
-    Direct access to upload folders is enabled for public viewing
+    পাসওয়ার্ড হ্যাশিং (bcrypt)
 
-    Uploaded images are validated before saving
+    রোল বেইজড অ্যাক্সেস কন্ট্রোল
 
-🗄️ Database Storage Format
+    CSRF প্রোটেকশন
 
-The database stores image paths as relative paths from the public directory, for example:
+    XSS ও SQL ইনজেকশন প্রোটেকশন
 
-    images/products/sample-product.jpg
+    সেশন ম্যানেজমেন্ট
 
-    images/categories/electronics.png
+    লগআউট ফিচার
 
-    images/users/avatar_123.jpg
+📁 ব্যাকআপ ও রিস্টোর
 
-This allows flexible access using Laravel's asset() helper.
-🛠️ Environment Configuration
+    ডাটাবেজ ব্যাকআপ
 
-The .env file contains the application URL which is used to generate full image paths:
-text
+    ইমেজ ফোল্ডার ব্যাকআপ
 
-APP_URL=http://gorurhat.local
-FILESYSTEM_DISK=public
+    ব্যাকআপ ডাউনলোড
 
-📋 Folder Permissions
+    ব্যাকআপ রিস্টোর সিস্টেম
 
-To allow image uploads, the following directory permissions are required:
-Directory	Permission
-public/images/	755
-public/images/products/	755
-public/images/categories/	755
-public/images/users/	755
-public/images/banners/	755
-public/images/temp/	755
-🌐 Accessing Images in Frontend
+⚙️ সেটিংস প্যানেল
 
-Images are accessed using the full URL or relative path from the public directory. All image URLs are dynamically generated based on the stored database path.
-🧹 Image Cleanup Process
+    ওয়েবসাইটের নাম ও লোগো সেটিং
 
-When a product, category, or user is deleted:
+    কারেন্সি সেটিংস
 
-    The associated image file is automatically removed from the public folder
+    পেমেন্ট গেটওয়ের সেটিংস
 
-    The image path is cleared from the database
+    ইমেইল কনফিগারেশন
 
-    Orphaned images are not retained in the system
+    এসএমএস গেটওয়ে সেটিংস
 
-🚀 Deployment Checklist
+    ডেলিভারী চার্জ সেটিংস
 
-Before deploying Gorurhat to production:
-
-    Ensure public/images/ and all subfolders exist
-
-    Set correct folder permissions (755)
-
-    Update APP_URL in .env file with your live domain
-
-    Confirm PHP GD or Imagick extension is enabled for image processing
-
-    Test image upload and display on staging environment
-
-    Set up a backup system for uploaded images
-
-📦 Default Image Fallback
-
-If no image is uploaded or the image is missing:
-
-    A default placeholder image is shown
-
-    Default image location: public/images/default.png
-
-    The default image is never deleted from the system
-
-✅ Summary
-
-Gorurhat E-commerce uses a simple and secure public image storage system:
-
-    All images stored inside public/images/
-
-    Organized by type (products, categories, users, banners)
-
-    Database stores relative paths
-
-    Frontend accesses via asset() helper
-
-    Automatic cleanup on deletion
-
-    Proper validation and security checks
-
-📞 Support
-
-For documentation updates or support related to the image management system, please contact the development team.
+📋 ফিচার সামারি টেবিল
+ফিচার ক্যাটাগরি	ফিচারসমূহ
+ড্যাশবোর্ড	বিক্রির পরিসংখ্যান, চার্ট, স্টোক অ্যালার্ট
+পণ্য ব্যবস্থাপনা	পণ্য সংযোজন/সম্পাদনা/ডিলিট, ভ্যারিয়েন্ট, স্টোক, বাল্ক আপলোড
+ক্যাটাগরি ব্যবস্থাপনা	প্যারেন্ট/চাইল্ড ক্যাটাগরি, ছবি, স্ট্যাটাস
+অর্ডার ব্যবস্থাপনা	স্ট্যাটাস আপডেট, ইনভয়েস, ডেলিভারী অ্যাসাইন, ক্যানসেল
+ইনভয়েস ও রিপোর্ট	পিডিএফ/এক্সেল রিপোর্ট, বিক্রয়, স্টোক রিপোর্ট
+গ্রাহক ব্যবস্থাপনা	গ্রাহক তালিকা, অর্ডার হিস্টোরি, স্ট্যাটাস
+কুপন ব্যবস্থাপনা	ডিসকাউন্ট কুপন, মেয়াদ, সীমা নির্ধারণ
+পেমেন্ট ব্যবস্থাপনা	পেমেন্ট স্ট্যাটাস, মোবাইল ব্যাংকিং, রিপোর্ট
+ডেলিভারী ব্যবস্থাপনা	ডেলিভারী ম্যান, এরিয়া, চার্জ সেটিংস
+নোটিফিকেশন	ইমেইল, এসএমএস, সিস্টেম অ্যালার্ট
+ইমেজ ব্যবস্থাপনা	আপলোড, ডিলিট, রিসাইজ, পাবলিক পাথ
+সিকিউরিটি	লগইন, হ্যাশিং, রোল বেসড অ্যাক্সেস, CSRF
+ব্যাকআপ	ডাটাবেজ ও ফোল্ডার ব্যাকআপ, রিস্টোর
+সেটিংস	সাইট সেটিংস, কারেন্সি, পেমেন্ট ও ইমেইল কনফিগ
