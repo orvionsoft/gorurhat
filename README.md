@@ -1,145 +1,139 @@
-![Gorurhat Admin Dashboard](./public\frontEnd\images\ScreenshotGorurhat.png)
+![Gorurhat Admin Dashboard](./frontEnd\images\ScreenshotGorurhat.png)
 
 
-# 🛒 Gorurhat E-commerce Website + Admin Dashboard
+ Gorurhat E-commerce
+📌 Project Overview
 
-A full-stack e-commerce platform for **Gorurhat** with product management, user authentication, shopping cart, order tracking, and an admin dashboard. Supports image uploads for products.
+Gorurhat is a fully functional e-commerce web application built with PHP Laravel. It provides a complete online shopping experience including product browsing, cart management, user authentication, order processing, and secure image handling.
+🗂️ Public Image Path Structure
 
-## 🚀 Features
-
-### User Side
-- Product browsing with categories & search
-- Product image gallery (multiple images per product)
-- Add to cart / wishlist
-- Secure checkout (SSLCommerz / Stripe ready)
-- Order history & tracking
-- User authentication (JWT)
-
-### Admin Dashboard
-- Product CRUD with image upload (Multer + Cloudinary)
-- Order management (update status)
-- User management
-- Sales analytics (charts)
-- Inventory control
-
-## 🛠️ Tech Stack
-
-| Layer        | Technology                          |
-|--------------|-------------------------------------|
-| Frontend     | React.js, Tailwind CSS, Redux Toolkit |
-| Backend      | Node.js, Express.js                 |
-| Database     | MongoDB (Mongoose ODM)              |
-| Auth         | JWT, bcrypt.js                      |
-| Image Upload | Multer + Cloudinary (or local storage) |
-| Payment      | SSLCommerz / Stripe                 |
-| Hosting      | Vercel (frontend), Render (backend) |
-
-## 📁 Project Structure
-
-gorurhat-ecom/
-├── backend/
-│ ├── models/
-│ │ ├── User.js
-│ │ ├── Product.js
-│ │ ├── Order.js
-│ │ └── Category.js
-│ ├── routes/
-│ │ ├── auth.js
-│ │ ├── products.js
-│ │ ├── orders.js
-│ │ └── upload.js
-│ ├── controllers/
-│ ├── middleware/
-│ │ └── auth.js
-│ ├── config/
-│ │ ├── db.js
-│ │ └── cloudinary.js
-│ ├── utils/
-│ └── server.js
-├── frontend/
-│ ├── src/
-│ │ ├── pages/
-│ │ │ ├── Home.jsx
-│ │ │ ├── ProductDetails.jsx
-│ │ │ ├── Cart.jsx
-│ │ │ ├── Dashboard/
-│ │ │ │ ├── AdminLayout.jsx
-│ │ │ │ ├── Products.jsx
-│ │ │ │ ├── Orders.jsx
-│ │ │ │ └── Analytics.jsx
-│ │ ├── components/
-│ │ ├── redux/
-│ │ ├── App.js
-│ │ └── index.js
-│ └── package.json
-├── .env
-└── README.md
+All uploaded images (products, categories, user avatars, banners) are stored in the public directory with the following structure:
 text
 
+public/
+└── images/
+    ├── products/
+    ├── categories/
+    ├── users/
+    ├── banners/
+    └── temp/
 
-## 🖼️ Image Upload Implementation (Code Snippet)
 
-### Backend (Node.js + Multer + Cloudinary)
+    database: C:\laragon\www\orvionshop3\public\sqldatabase\gorurhat.sql
 
-```javascript
-// backend/config/cloudinary.js
-const cloudinary = require('cloudinary').v2;
-cloudinary.config({
-  cloud_name: process.env.CLOUD_NAME,
-  api_key: process.env.CLOUD_API_KEY,
-  api_secret: process.env.CLOUD_API_SECRET
-});
-module.exports = cloudinary;
+Each image is accessible via a direct URL path relative to the public folder.
+📁 Image Path Examples
+Image Type	Public Path	Access URL Example
+Product Image	public/images/products/shoe.jpg	http://gorurhat.com/images/products/shoe.jpg
+Category Icon	public/images/categories/electronics.png	http://gorurhat.com/images/categories/electronics.png
+Banner Image	public/images/banners/summer.jpg	http://gorurhat.com/images/banners/summer.jpg
+User Avatar	public/images/users/avatar123.jpg	http://gorurhat.com/images/users/avatar123.jpg
+🖼️ How Images Are Stored & Retrieved
 
-// backend/routes/upload.js
-const multer = require('multer');
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
-const cloudinary = require('../config/cloudinary');
+    Uploaded images are moved directly into the respective subfolder inside public/images/
 
-const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
-    folder: 'gorurhat-products',
-    allowed_formats: ['jpg', 'png', 'jpeg']
-  }
-});
-const upload = multer({ storage });
+    Database stores the relative image path (e.g., images/products/shoe.jpg)
 
-router.post('/upload', upload.array('images', 5), (req, res) => {
-  const imageUrls = req.files.map(file => file.path);
-  res.json({ urls: imageUrls });
-});
+    Display in views uses the asset() helper pointing to the public path
 
-Frontend (React)
-jsx
+    Default image is shown when no image is available
 
-// ProductForm.jsx
-const handleImageUpload = async (e) => {
-  const files = e.target.files;
-  const formData = new FormData();
-  for (let file of files) formData.append('images', file);
-  
-  const res = await axios.post('/api/upload', formData);
-  setImageUrls(res.data.urls);
-};
+🔐 Image Security & Validation
 
-🔧 Setup Instructions
-Prerequisites
+    Only allowed image formats: JPEG, PNG, JPG, GIF, WebP
 
-    Node.js (v18+)
+    Maximum file size: 2MB
 
-    MongoDB Atlas or local MongoDB
+    File names are renamed uniquely (timestamp + random string)
 
-    Cloudinary account (for image hosting)
+    Direct access to upload folders is enabled for public viewing
 
-Environment Variables (.env)
+    Uploaded images are validated before saving
 
-Backend (.env)
+🗄️ Database Storage Format
+
+The database stores image paths as relative paths from the public directory, for example:
+
+    images/products/sample-product.jpg
+
+    images/categories/electronics.png
+
+    images/users/avatar_123.jpg
+
+This allows flexible access using Laravel's asset() helper.
+🛠️ Environment Configuration
+
+The .env file contains the application URL which is used to generate full image paths:
 text
 
-PORT=5000
-MONGO_URI=mongodb+srv://...
-JWT_SECRET=your_jwt_secret
-CLOUD_NAME=your_cloudinary_name
-CLOUD_API_KEY=your_key
-CLOUD_API_SECRET=your_secret
+APP_URL=http://gorurhat.local
+FILESYSTEM_DISK=public
+
+📋 Folder Permissions
+
+To allow image uploads, the following directory permissions are required:
+Directory	Permission
+public/images/	755
+public/images/products/	755
+public/images/categories/	755
+public/images/users/	755
+public/images/banners/	755
+public/images/temp/	755
+🌐 Accessing Images in Frontend
+
+Images are accessed using the full URL or relative path from the public directory. All image URLs are dynamically generated based on the stored database path.
+🧹 Image Cleanup Process
+
+When a product, category, or user is deleted:
+
+    The associated image file is automatically removed from the public folder
+
+    The image path is cleared from the database
+
+    Orphaned images are not retained in the system
+
+🚀 Deployment Checklist
+
+Before deploying Gorurhat to production:
+
+    Ensure public/images/ and all subfolders exist
+
+    Set correct folder permissions (755)
+
+    Update APP_URL in .env file with your live domain
+
+    Confirm PHP GD or Imagick extension is enabled for image processing
+
+    Test image upload and display on staging environment
+
+    Set up a backup system for uploaded images
+
+📦 Default Image Fallback
+
+If no image is uploaded or the image is missing:
+
+    A default placeholder image is shown
+
+    Default image location: public/images/default.png
+
+    The default image is never deleted from the system
+
+✅ Summary
+
+Gorurhat E-commerce uses a simple and secure public image storage system:
+
+    All images stored inside public/images/
+
+    Organized by type (products, categories, users, banners)
+
+    Database stores relative paths
+
+    Frontend accesses via asset() helper
+
+    Automatic cleanup on deletion
+
+    Proper validation and security checks
+
+📞 Support
+
+For documentation updates or support related to the image management system, please contact the development team.
