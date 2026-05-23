@@ -1,4 +1,4 @@
-![Homepage](public/frontEnd\images\ScreenshotGorurhat.png)
+![Homepage](public/ScreenshotGorurhat.png)
 
 
 Gorurhat E-commerce Documentation
