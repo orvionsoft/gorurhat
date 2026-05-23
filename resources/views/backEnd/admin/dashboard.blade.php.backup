@@ -1,0 +1,808 @@
+@extends('backEnd.layouts.master')
+@section('title','Dashboard')
+@section('css')
+@endsection
+@section('content')
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    display: flex;
+    height: 100vh;
+}
+
+.dashboard-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+}
+
+aside {
+    width: 260px;
+    background: #ffffff;
+    border-right: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    padding: 30px 0;
+}
+
+.aside-header {
+    padding: 0 30px 40px 30px;
+}
+
+.aside-header h2 {
+    color: #c00000;
+    margin: 0;
+    font-size: 24px;
+}
+
+.aside-header small {
+    color: #666;
+    font-size: 10px;
+    letter-spacing: 1px;
+}
+
+nav {
+    flex: 1;
+}
+
+.nav-item {
+    padding: 15px 30px;
+    color: #555;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s;
+}
+
+.nav-item:hover {
+    background: #fff1f1;
+    color: #c00000;
+}
+
+.nav-item.active {
+    background: #fff1f1;
+    border-right: 4px solid #c00000;
+    color: #c00000;
+    font-weight: bold;
+}
+
+main {
+    flex: 1;
+    overflow-y: auto;
+    padding: 30px 40px;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.dashboard-header h1 {
+    color: #c00000;
+    font-size: 28px;
+    margin: 0;
+}
+
+.header-actions {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+}
+
+.stat-info {
+    flex: 1;
+}
+
+.stat-title {
+    color: #888;
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.stat-value {
+    font-size: 32px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.stat-change {
+    font-size: 11px;
+    margin-top: 5px;
+}
+
+.stat-change.positive {
+    color: #2e7d32;
+}
+
+.stat-change.negative {
+    color: #c00000;
+}
+
+.stat-icon {
+    padding: 15px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stat-icon.total-animals {
+    background: #fff1f1;
+    color: #c00000;
+}
+
+.stat-icon.categories {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.stat-icon.premium {
+    background: #fff8e1;
+    color: #fbc02d;
+}
+
+.stat-icon.sales {
+    background: #e3f2fd;
+    color: #1976d2;
+}
+
+.recent-table {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+    margin-bottom: 40px;
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.table-header h3 {
+    margin: 0;
+    color: #333;
+}
+
+.view-all {
+    color: #c00000;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.data-table thead th {
+    background: #fff5f5;
+    text-align: left;
+    color: #666;
+    padding: 15px;
+}
+
+.data-table tbody td {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.category-badge {
+    background: #e8f5e9;
+    color: #2e7d32;
+    padding: 4px 10px;
+    border-radius: 5px;
+}
+
+.price {
+    color: #c00000;
+    font-weight: bold;
+}
+
+.action-btn {
+    cursor: pointer;
+    color: #888;
+}
+
+.action-cards {
+    display: flex;
+    gap: 20px;
+}
+
+.action-card {
+    flex: 1;
+    color: white;
+    padding: 30px;
+    border-radius: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.action-card.add-product {
+    background: #a00000;
+}
+
+.action-card.add-category {
+    background: #917e00;
+}
+
+.action-card h3 {
+    margin: 0 0 10px 0;
+    font-size: 24px;
+}
+
+.action-card p {
+    margin: 0;
+    opacity: 0.8;
+    font-size: 14px;
+}
+
+.add-btn {
+    background: rgba(255,255,255,0.2);
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.add-btn:hover {
+    background: rgba(255,255,255,0.3);
+    transform: scale(1.1);
+}
+
+.user-info {
+    padding: 20px 30px;
+    border-top: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: #333;
+}
+
+.user-details {
+    flex: 1;
+}
+
+.user-name {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.user-role {
+    font-size: 11px;
+    color: #888;
+}
+</style>
+
+<div class="dashboard-container">
+    <aside>
+        <div class="aside-header">
+            <h2>Heritage Haat</h2>
+            <small>TRUSTED PARTNER</small>
+        </div>
+
+        <nav>
+            <div class="nav-item active">
+                <span>📊</span> ড্যাশবোর্ড
+            </div>
+            <div class="nav-item">
+                <span>📂</span> ক্যাটাগরি
+            </div>
+            <div class="nav-item">
+                <span>🐄</span> পশু ব্যবস্থাপনা
+            </div>
+            <div class="nav-item">
+                <span>⚙️</span> ফুটার সেটিংস
+            </div>
+            <a href="{{ route('contact-message.index') }}" class="nav-item" style="text-decoration: none; color: inherit;">
+                <span>💬</span> মেসেজ সমূহ
+                @php
+                    $unreadCount = App\Models\ContactMessage::where('is_read', false)->count();
+                @endphp
+                @if($unreadCount > 0)
+                    <span style="background: #c00000; color: white; border-radius: 10px; padding: 2px 6px; font-size: 10px; margin-left: auto;">{{ $unreadCount }}</span>
+                @endif
+            </a>
+        </nav>
+
+        <div class="user-info">
+            <div class="user-avatar"></div>
+            <div class="user-details">
+                <div class="user-name">অ্যাডমিন প্যানেল</div>
+                <div class="user-role">হেরিটেজ হাট</div>
+            </div>
+        </div>
+    </aside>
+
+    <main>
+        <header class="dashboard-header">
+            <h1>স্বাগতম, অ্যাডমিন</h1>
+            <div class="header-actions">
+                <span style="font-size: 20px; cursor: pointer;">🔔</span>
+                <span style="font-size: 24px; cursor: pointer;">👤</span>
+            </div>
+        </header>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-info">
+                    <div class="stat-title">মোট পশু</div>
+                    <div class="stat-value">{{ $total_product ?? 0 }}</div>
+                    <div class="stat-change positive">+১২টি নতুন</div>
+                </div>
+                <div class="stat-icon total-animals">📋</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-info">
+                    <div class="stat-title">মোট ক্যাটাগরি</div>
+                    <div class="stat-value">{{ count($frontcategory ?? []) }}</div>
+                    <div class="stat-change positive">+১২টি নতুন</div>
+                </div>
+                <div class="stat-icon categories">🌳</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-info">
+                    <div class="stat-title">মোট প্রিমিয়াম পশু</div>
+                    <div class="stat-value">{{ $total_product ?? 0 }}</div>
+                    <div class="stat-change positive">+১২টি নতুন</div>
+                </div>
+                <div class="stat-icon premium">🏆</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-info">
+                    <div class="stat-title">মোট বিক্রি</div>
+                    <div class="stat-value">{{ $total_order ?? 0 }}</div>
+                    <div class="stat-change negative">-৫টি নতুন</div>
+                </div>
+                <div class="stat-icon sales">✔️</div>
+            </div>
+        </div>
+
+        <div class="recent-table">
+            <div class="table-header">
+                <h3>সাম্প্রতিক পশুর তালিকা</h3>
+                <a href="#" class="view-all">সবগুলো দেখুন</a>
+            </div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ছবি</th>
+                        <th>নাম</th>
+                        <th>ক্যাটাগরি</th>
+                        <th>মূল্য</th>
+                        <th>ওজন</th>
+                        <th>অ্যাকশন</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($latest_order ?? [] as $order)
+                    <tr>
+                        <td>
+                            <img src="{{ $order->product && $order->product->image ? asset($order->product->image->image) : '' }}"
+                                 alt="product" style="width: 40px; height: 40px; border-radius: 5px; object-fit: cover;">
+                        </td>
+                        <td style="font-weight: bold;">{{ $order->product ? $order->product->name : 'N/A' }}</td>
+                        <td><span class="category-badge">{{ $order->product && $order->product->category ? $order->product->category->name : 'N/A' }}</span></td>
+                        <td class="price">৳ {{ number_format($order->amount ?? 0) }}</td>
+                        <td>{{ $order->product ? $order->product->weight ?? 'N/A' : 'N/A' }} কেজি</td>
+                        <td class="action-btn">✏️</td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 40px; color: #888;">কোন পশু পাওয়া যায়নি</td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+
+        <div class="action-cards">
+            <div class="action-card add-product">
+                <div>
+                    <h3>নতুন পণ্য যুক্ত করুন</h3>
+                    <p>আপনার ইনভেন্টরিতে নতুন পশু যোগ করতে এখানে ক্লিক করুন</p>
+                </div>
+                <div class="add-btn">+</div>
+            </div>
+            <div class="action-card add-category">
+                <div>
+                    <h3>নতুন ক্যাটাগরি তৈরি করুন</h3>
+                    <p>পণ্যের সঠিক শ্রেণীবিন্যাসের জন্য নতুন গ্রুপ তৈরি করুন</p>
+                </div>
+                <div class="add-btn">+</div>
+            </div>
+        </div>
+    </main>
+</div>
+@endsection
+    <div class="banner-left">
+      {{-- <img src="{{asset($generalsetting->dark_logo)}}" alt="Logo"> --}}
+      <div class="text">
+       অরভিয়নসফট ই-কমার্স ম্যানেজমেন্ট সিস্টেম <br>
+        <small>🛑 বিঃদ্রঃ নামাজের সময় সাপোর্ট বন্ধ থাকব থাকবে</small>
+      </div>
+    </div>
+
+    <!-- Right Side -->
+    <div class="banner-right">
+      <div class="phone">
+        📞 যোগাযোগঃ 01940862387
+      </div>
+      <small>যোগাযোগের সময় সকাল ৯:০০টা থেকে সন্ধ্যা ৭:০০টা পর্যন্ত</small>
+    </div>
+  </div>
+    <!-- end page title --> 
+
+    <div class="row">
+        <div class="col-md-6 col-xl-3">
+            <div class="widget-rounded-circle card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="avatar-lg rounded-circle bg-soft-primary border-primary border">
+                                <i class="fe-shopping-cart font-22 avatar-title text-primary"></i>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-end">
+                                <h3 class="text-dark mt-1"><span data-plugin="counterup">{{$total_order}}</span></h3>
+                                <p class="text-muted mb-1 text-truncate">Total Oreder</p>
+                            </div>
+                        </div>
+                    </div> <!-- end row-->
+                </div>
+            </div> <!-- end widget-rounded-circle-->
+        </div> <!-- end col-->
+
+        <div class="col-md-6 col-xl-3">
+            <div class="widget-rounded-circle card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="avatar-lg rounded-circle bg-soft-success border-success border">
+                                <i class="fe-shopping-bag font-22 avatar-title text-success"></i>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-end">
+                                <h3 class="text-dark mt-1"><span data-plugin="counterup">{{$today_order}}</span></h3>
+                                <p class="text-muted mb-1 text-truncate">Today's Order</p>
+                            </div>
+                        </div>
+                    </div> <!-- end row-->
+                </div>
+            </div> <!-- end widget-rounded-circle-->
+        </div> <!-- end col-->
+
+        <div class="col-md-6 col-xl-3">
+            <div class="widget-rounded-circle card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="avatar-lg rounded-circle bg-soft-info border-info border">
+                                <i class="fe-database font-22 avatar-title text-info"></i>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-end">
+                                <h3 class="text-dark mt-1"><span data-plugin="counterup">{{$total_product}}</span></h3>
+                                <p class="text-muted mb-1 text-truncate">Products</p>
+                            </div>
+                        </div>
+                    </div> <!-- end row-->
+                </div>
+            </div> <!-- end widget-rounded-circle-->
+        </div> <!-- end col-->
+
+        <div class="col-md-6 col-xl-3">
+            <div class="widget-rounded-circle card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="avatar-lg rounded-circle bg-soft-warning border-warning border">
+                                <i class="fe-user font-22 avatar-title text-warning"></i>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-end">
+                                <h3 class="text-dark mt-1"><span data-plugin="counterup">{{$total_customer}}</span></h3>
+                                <p class="text-muted mb-1 text-truncate">Customer</p>
+                            </div>
+                        </div>
+                    </div> <!-- end row-->
+                </div>
+            </div> <!-- end widget-rounded-circle-->
+        </div> <!-- end col-->
+    </div>
+    <!-- end row-->
+
+    <!-- Contact Messages Section -->
+    <div class="row mb-3">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="card-title mb-1">Contact Messages</h5>
+                            <p class="text-muted mb-0">Check new customer inquiries and messages</p>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            @php
+                                $unreadCount = App\Models\ContactMessage::where('is_read', false)->count();
+                                $totalCount = App\Models\ContactMessage::count();
+                            @endphp
+                            @if($unreadCount > 0)
+                                <span class="badge bg-danger me-2">{{ $unreadCount }} Unread</span>
+                            @endif
+                            <a href="{{ route('contact-message.index') }}" class="btn btn-primary">
+                                <i class="mdi mdi-message-text-outline me-1"></i>
+                                View Messages ({{ $totalCount }})
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="dropdown float-end">
+                        <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="mdi mdi-dots-vertical"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <!-- item-->
+                            <a href="javascript:void(0);" class="dropdown-item">Edit Report</a>
+                            <!-- item-->
+                            <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
+                            <!-- item-->
+                            <a href="javascript:void(0);" class="dropdown-item">Action</a>
+                        </div>
+                    </div>
+
+                    <h4 class="header-title mb-3">Latest 5 Orders</h4>
+
+                    <div class="table-responsive">
+                        <table class="table table-borderless table-hover table-nowrap table-centered m-0">
+
+                            <thead class="table-light">
+                                <tr>
+                                    <th colspan="2">Id</th>
+                                    <th>Invoice</th>
+                                    <th>Amount</th>
+                                    <th>Customer</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($latest_order as $order)
+                                <tr>
+                                    <td>{{$loop->iteration}}</td>
+                                    <td style="width: 36px;">
+                                        <img src="{{asset($order->product?$order->product->image->image:'')}}" alt="contact-img" title="contact-img" class="rounded-circle avatar-sm" />
+                                    </td>
+
+                                    <td>
+                                        {{$order->invoice_id}}
+                                    </td>
+
+                                    <td>
+                                        {{$order->amount}}
+                                    </td>
+
+                                    <td>
+                                        {{$order->customer?$order->customer->name:''}}
+                                    </td>
+                                    <td>
+                                        {{$order->order_status}}
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- end col -->
+
+        <div class="col-xl-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="dropdown float-end">
+                        <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="mdi mdi-dots-vertical"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <!-- item-->
+                            <a href="javascript:void(0);" class="dropdown-item">Edit Report</a>
+                            <!-- item-->
+                            <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
+                            <!-- item-->
+                            <a href="javascript:void(0);" class="dropdown-item">Action</a>
+                        </div>
+                    </div>
+
+                    <h4 class="header-title mb-3">Latest Customers</h4>
+
+                    <div class="table-responsive">
+                        <table class="table table-borderless table-nowrap table-hover table-centered m-0">
+
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Phone</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($latest_customer as $customer)
+                                <tr>
+                                    <td>
+                                        <h5 class="m-0 fw-normal">{{$loop->iteration}}</h5>
+                                    </td>
+
+                                    <td>
+                                        {{$customer->name}}
+                                    </td>
+
+                                    <td>
+                                        {{$customer->phone}}
+                                    </td>
+
+                                    <td>
+                                        {{$customer->created_at->format('d-m-Y')}}
+                                    </td>
+
+                                    <td>
+                                        {{$customer->status}}
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div> <!-- end .table-responsive-->
+                </div>
+            </div> <!-- end card-->
+        </div> <!-- end col -->
+    </div>
+    <!-- end row -->
+    
+</div> <!-- container -->
+@endsection
+@section('script')
+ <!-- Plugins js-->
+        <script src="{{asset('public/backEnd/')}}/assets/libs/flatpickr/flatpickr.min.js"></script>
+        <script src="{{asset('public/backEnd/')}}/assets/libs/apexcharts/apexcharts.min.js"></script>
+        <script src="{{asset('public/backEnd/')}}/assets/libs/selectize/js/standalone/selectize.min.js"></script>
+
+    <script>
+
+    var colors = ["#f1556c"],
+    dataColors = $("#total-revenue").data("colors");
+    dataColors && (colors = dataColors.split(","));
+    var options = {
+          
+          chart: {
+             height: 242,
+             type: "radialBar"
+          },
+          plotOptions: {
+             radialBar: {
+                hollow: {
+                   size: "65%"
+                }
+             }
+          },
+          colors: colors,
+          labels: ["Delivery"]
+       },
+        chart = new ApexCharts(document.querySelector("#total-revenue"), options);
+        chart.render();
+        colors = ["#1abc9c", "#4a81d4"];
+        (dataColors = $("#sales-analytics").data("colors")) && (colors = dataColors.split(","));
+        options = {
+           series: [{
+              name: "Revenue",
+              type: "column",
+              data: [@foreach($monthly_sale as $sale) {{$sale->amount}}, @endforeach]
+           }, {
+              name: "Sales",
+              type: "line",
+              data: [@foreach($monthly_sale as $sale) {{$sale->amount}}, @endforeach]
+           }],
+           chart: {
+              height: 378,
+              type: "line",
+           },
+           stroke: {
+              width: [2, 3]
+           },
+           plotOptions: {
+              bar: {
+                 columnWidth: "50%"
+              }
+           },
+           colors: colors,
+           dataLabels: {
+              enabled: !0,
+              enabledOnSeries: [1]
+           },
+           labels: [@foreach($monthly_sale as $sale) {{date('d', strtotime($sale->date))}} + '-' + {{date('m', strtotime($sale->date))}}+ '-' + {{date('Y', strtotime($sale->date))}}, @endforeach],
+           legend: {
+              offsetY: 7
+           },
+           grid: {
+              padding: {
+                 bottom: 20
+              }
+           },
+           fill: {
+              type: "gradient",
+              gradient: {
+                 shade: "light",
+                 type: "horizontal",
+                 shadeIntensity: .25,
+                 gradientToColors: void 0,
+                 inverseColors: !0,
+                 opacityFrom: .75,
+                 opacityTo: .75,
+                 stops: [0, 0, 0]
+              }
+           },
+           yaxis: [{
+              title: {
+                 text: "Net Revenue"
+              }
+           }]
+        };
+        (chart = new ApexCharts(document.querySelector("#sales-analytics"), options)).render(), $("#dash-daterange").flatpickr({
+           altInput: !0,
+           mode: "range",
+        });
+    </script>
+@endsection
